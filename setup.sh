@@ -44,4 +44,5 @@ cd /tmp || cd ~
 rm -rf "$TEMP_DIR"
 
 echo ""
-echo "Done!"
+echo "Done! Press Enter to exit..."
+read -r

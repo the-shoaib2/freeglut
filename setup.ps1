@@ -74,4 +74,5 @@ try {
 }
 
 Write-Host ""
-Write-Host "Done!" -ForegroundColor Green
+Write-Host "Done! Press Enter to exit..." -ForegroundColor Green
+Read-Host

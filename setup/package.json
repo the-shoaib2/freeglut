@@ -1,6 +1,6 @@
 {
-  "name": "create-freeglut-app",
-  "version": "1.0.0",
+  "name": "glut",
+  "version": "1.2.0",
   "description": "CLI tool to scaffold a FreeGLUT project",
   "main": "index.js",
   "bin": {
@@ -15,7 +15,8 @@
     "chalk": "^4.1.2",
     "node-fetch": "^2.7.0",
     "tar": "^6.2.0",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "chokidar": "^3.5.3"
   },
   "engines": {
     "node": ">=16.0.0"

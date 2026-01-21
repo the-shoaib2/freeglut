@@ -4,39 +4,51 @@ A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with
 
 ## Quick Start (All Platforms)
 
-Run these three commands to get started:
+Run these two steps to get started:
 
-1. **Setup the CLI:**
+1. **Install & Register (One-time):**
    ```bash
    # On macOS/Linux
    chmod +x setup.sh && ./setup.sh
    # On Windows (Admin recommended)
    .\setup.bat
    ```
+   *This command installs the CLI, registers 'glut' globally, and automatically configures FreeGLUT.*
 
-2. **Setup FreeGLUT Environment:**
-   ```bash
-   glut setup
-   ```
-
-3. **Create Your First Project:**
+2. **Create Your First Project:**
    ```bash
    glut create MyProject
    ```
 
 ## Features
 
-- **Cross-Platform**: Works on macOS (Silicon/Intel), Windows, and Linux.
+- **Framework Commands**:
+  - `glut watch`: **Hot Reloading** for C++! Rebuilds and restarts your app on every save.
+  - `glut add <name>`: Instantly generate C++ header and source pairs.
+  - `glut clean`: Quickly wipe build artifacts.
+  - `glut status`: Get a snapshot of your project and source files.
+- **Production Performance**:
+  - `glut build --release`: Peak optimization with `-O3` and symbol stripping.
+  - **Modern C++**: Projects use **C++17** by default for professional performance and features.
 - **Auto-Environment Setup**: Automatically downloads FreeGLUT or guides you through system-level installation.
+- **Smart Scaffolding**: 
+  - Automatically initializes a **Git repository**.
+  - Injects your project name into the code (e.g., as the window title).
+- **CLI Lifecycle Support**:
+  - `glut build`: Compile your project from the terminal.
+  - `glut run`: Build and execute your project instantly.
 - **VS Code Integration**: Pre-configured `.vscode` settings for building and debugging (F5 support).
-- **Multi-File Support**: Automatically compiles all `.cpp` files in your project directory.
 
-## Project Structure
+## Manual Build & Run
 
-When you create a project, it will have the following structure:
-- `main.cpp`: Your entry point.
-- `.vscode/`: Tasks and launch configurations for VS Code.
-
-## How to Build
-
-Simply open the project in VS Code and press **F5**. This will automatically compile all `.cpp` files and start debugging.
+While VS Code is recommended, you can manage your project entirely from the CLI:
+```bash
+glut watch          # Hot-reload mode (rebuild on save)
+glut build --release # Build for production (-O3)
+glut run            # Debug build and execute
+glut add Player     # Generate Player.h and Player.cpp
+glut clean          # Clear build folder
+glut status         # Show project info
+glut help           # Show command help
+glut version        # Show CLI version
+```

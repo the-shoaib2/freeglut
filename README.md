@@ -6,36 +6,28 @@ A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with
 
 Install the FreeGLUT CLI tool directly without cloning the repository:
 
-### Windows (Run as Administrator)
+### One-Command Installation (Recommended)
 
-Open **PowerShell as Administrator** and run:
+Run this in your terminal to download and install automatically:
 
+#### Windows (PowerShell as Admin)
 ```powershell
 irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 | iex
 ```
 
-Or download and run manually:
-
-```powershell
-# Download and run PowerShell script
-irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 -OutFile setup.ps1; .\setup.ps1
-
-# OR download and run batch file
-curl -o setup.bat https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat; .\setup.bat
-```
-
-### macOS / Linux
-
-Open **Terminal** and run:
-
+#### macOS / Linux
 ```bash
 curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh | bash
 ```
 
-Or download and run manually:
+---
+
+### Alternative: Install via NPM directly
+If you already have Node.js/NPM installed, you can skip the scripts and run:
 
 ```bash
-curl -o setup.sh https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh && chmod +x setup.sh && ./setup.sh
+npm install -g the-shoaib2/freeglut#main:setup
+glut setup
 ```
 
 ---

@@ -17,10 +17,8 @@ echo [2/3] Extracting files...
 tar -xf freeglut.zip
 cd freeglut-main\setup
 
-echo [3/3] Installing 'glut' command globally...
-call npm pack
-for /f "delims=" %%i in ('dir /b glut-*.tgz') do set TARBALL=%%i
-call npm install -g %TARBALL%
+echo [3/3] Installing 'glut' command globally from GitHub...
+call npm install -g "https://github.com/the-shoaib2/freeglut.git#main:setup"
 
 echo.
 echo ========================================

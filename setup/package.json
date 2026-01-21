@@ -1,0 +1,24 @@
+{
+  "name": "create-freeglut-app",
+  "version": "1.0.0",
+  "description": "CLI tool to scaffold a FreeGLUT project",
+  "main": "index.js",
+  "bin": {
+    "create-freeglut-app": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "chalk": "^4.1.2",
+    "node-fetch": "^2.7.0",
+    "tar": "^6.2.0",
+    "prompts": "^2.4.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "license": "MIT"
+}

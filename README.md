@@ -2,13 +2,22 @@
 
 A clean, production-ready template for OpenGL and GLUT applications that works seamlessly on **Windows**, **Linux**, and **macOS**.
 
-## Features
-- **Cross-Platform**: Handles platform-specific includes and linkers automatically.
-- **VS Code Ready**: Includes pre-configured `tasks.json`, `launch.json`, and `c_cpp_properties.json`.
-- **CLI Support**: Build scripts for Bash (Linux/macOS) and Batch (Windows).
-- **Clean Structure**: Build artifacts are isolated in the `build/` directory.
+## Command List
 
-## Prerequisites
+### **1. Setup New Project**
+Create a new FreeGLUT project from the root folder:
+- **Mac / Linux**: `./setup.sh MyNewApp`
+- **Windows**: `setup.bat MyNewApp`
+
+### **2. Build Project**
+Inside your new project directory:
+- **Mac / Linux**: `./build.sh`
+- **Windows**: `build.bat`
+
+### **3. Run Application**
+After a successful build:
+- **Mac / Linux**: `./build/app`
+alias create-gl-app='/path/to/setup.sh'
 
 ### macOS
 - **Xcode Command Line Tools**: `xcode-select --install`

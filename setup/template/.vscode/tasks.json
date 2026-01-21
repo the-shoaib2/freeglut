@@ -11,7 +11,15 @@
         "command": "mkdir -p build/Debug && g++ *.cpp -o build/app -lglut -lGL -lGLU -g && ln -sf ../app build/Debug/outDebug"
       },
       "windows": {
-        "command": "cmd /C \"if not exist build\\Debug mkdir build\\Debug && g++ *.cpp -o build\\app.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g && copy build\\app.exe build\\Debug\\outDebug.exe\""
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": [
+              "/C"
+            ]
+          }
+        },
+        "command": "if not exist build\\Debug mkdir build\\Debug && g++ *.cpp -o build\\app.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g && copy build\\app.exe build\\Debug\\outDebug.exe"
       },
       "group": {
         "kind": "build",

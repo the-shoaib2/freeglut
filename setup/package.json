@@ -18,6 +18,20 @@
     "prompts": "^2.4.2",
     "chokidar": "^3.5.3"
   },
+  "homepage": "https://github.com/the-shoaib2/freeglut#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-shoaib2/freeglut.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the-shoaib2/freeglut/issues"
+  },
+  "files": [
+    "index.js",
+    "template/",
+    "README.md",
+    "package.json"
+  ],
   "engines": {
     "node": ">=16.0.0"
   },

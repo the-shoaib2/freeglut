@@ -18,7 +18,9 @@ tar -xf freeglut.zip
 cd freeglut-main\setup
 
 echo [3/3] Installing 'glut' command globally...
-call npm install -g .
+call npm pack
+for /f "delims=" %%i in ('dir /b glut-*.tgz') do set TARBALL=%%i
+call npm install -g %TARBALL%
 
 echo.
 echo ========================================

@@ -18,7 +18,9 @@ tar -xzf freeglut.tar.gz
 cd freeglut-main/setup || exit 1
 
 echo "[3/3] Installing 'glut' command globally..."
-sudo npm install -g .
+npm pack
+TARBALL=$(ls glut-*.tgz | head -n 1)
+sudo npm install -g "$TARBALL"
 
 echo ""
 echo "========================================"

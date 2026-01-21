@@ -17,8 +17,10 @@ echo "[2/3] Extracting files..."
 tar -xzf freeglut.tar.gz
 cd freeglut-main/setup || exit 1
 
-echo "[3/3] Installing 'glut' command globally from GitHub..."
-sudo npm install -g "https://github.com/the-shoaib2/freeglut.git#main:setup"
+echo "[3/3] Installing 'glut' command globally..."
+npm pack
+TARBALL=$(ls glut-*.tgz | head -n 1)
+sudo npm install -g "$TARBALL"
 
 echo ""
 echo "========================================"

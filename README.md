@@ -20,15 +20,7 @@ irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 | iex
 curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh | bash
 ```
 
----
 
-### Alternative: Install via NPM directly
-If you already have Node.js/NPM installed, you can skip the scripts and run:
-
-```bash
-npm install -g the-shoaib2/freeglut#main:setup
-glut setup
-```
 
 ---
 

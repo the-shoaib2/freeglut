@@ -35,8 +35,11 @@ try {
     Expand-Archive -Path $zipFile -DestinationPath $tempDir -Force
     Set-Location (Join-Path $tempDir "freeglut-main\setup")
 
-    Write-Host "[3/3] Installing 'glut' command globally from GitHub..." -ForegroundColor Green
-    npm install -g "https://github.com/the-shoaib2/freeglut.git#main:setup"
+    Write-Host "[3/3] Installing 'glut' command globally..." -ForegroundColor Green
+    npm pack
+    $tarball = Get-ChildItem "glut-*.tgz" | Select-Object -First 1
+    if (-not $tarball) { throw "Failed to create npm package" }
+    npm install -g $tarball.FullName
 
     if ($LASTEXITCODE -ne 0) {
         throw "npm installation failed"

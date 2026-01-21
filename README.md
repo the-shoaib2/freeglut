@@ -2,23 +2,45 @@
 
 A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with VS Code support on Windows, macOS, and Linux.
 
-## Quick Start (All Platforms)
+## Quick Start (One-Command Installation)
 
-Run these two steps to get started:
+Install the FreeGLUT CLI tool directly without cloning the repository:
 
-1. **Install & Register (One-time):**
-   ```bash
-   # On macOS/Linux
-   chmod +x setup.sh && ./setup.sh
-   # On Windows (Admin recommended)
-   .\setup.bat
-   ```
-   *This command installs the CLI, registers 'glut' globally, and automatically configures FreeGLUT.*
+### Windows (Run as Administrator)
 
-2. **Create Your First Project:**
-   ```bash
-   glut create MyProject
-   ```
+Open **PowerShell as Administrator** and run:
+
+```powershell
+irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat | iex
+```
+
+Or download and run manually:
+
+```powershell
+curl -o setup.bat https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat && .\setup.bat
+```
+
+### macOS / Linux
+
+Open **Terminal** and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh | bash
+```
+
+Or download and run manually:
+
+```bash
+curl -o setup.sh https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh && chmod +x setup.sh && ./setup.sh
+```
+
+---
+
+**After installation, create your first project:**
+
+```bash
+glut create MyProject
+```
 
 ## Features
 

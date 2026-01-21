@@ -11,13 +11,17 @@ Install the FreeGLUT CLI tool directly without cloning the repository:
 Open **PowerShell as Administrator** and run:
 
 ```powershell
-irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat | iex
+irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 | iex
 ```
 
 Or download and run manually:
 
 ```powershell
-curl -o setup.bat https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat && .\setup.bat
+# Download and run PowerShell script
+irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 -OutFile setup.ps1; .\setup.ps1
+
+# OR download and run batch file
+curl -o setup.bat https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.bat; .\setup.bat
 ```
 
 ### macOS / Linux

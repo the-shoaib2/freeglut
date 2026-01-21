@@ -1,29 +1,17 @@
 #!/bin/bash
 
-# Usage: ./setup.sh [ProjectName]
+# Setup script for FreeGLUT CLI Tool
 
-PROJECT_NAME=${1:-"Project"}
-TEMPLATE_DIR="$(dirname "$0")/setup/template"
+echo "Installing CLI dependencies..."
+cd setup || exit
+npm install
 
-if [ -d "$PROJECT_NAME" ]; then
-    echo "Error: Directory '$PROJECT_NAME' already exists."
-    exit 1
-fi
+echo "Linking 'glut' command globally..."
+# Using 'npm install -g .' to ensure the binary is registered
+sudo npm install -g .
 
-echo "Creating project: $PROJECT_NAME..."
-cp -r "$TEMPLATE_DIR" "$PROJECT_NAME"
-
-cd "$PROJECT_NAME" || exit
-
-echo "Setting up dependencies..."
-mkdir -p deps
-curl -L https://github.com/freeglut/freeglut/releases/download/v3.8.0/freeglut-3.8.0.tar.gz -o deps/freeglut.tar.gz
-
-echo "Extracting FreeGLUT..."
-tar -xzf deps/freeglut.tar.gz -C deps/
-rm deps/freeglut.tar.gz
-
-echo "Success! Project $PROJECT_NAME created."
-echo "To start:"
-echo "  cd $PROJECT_NAME"
-echo "  code ."
+echo ""
+echo "Success! The 'glut' command is now available."
+echo "Next steps:"
+echo "  1. Run 'glut setup' to configure your environment."
+echo "  2. Run 'glut create <ProjectName>' to start a new project."

@@ -1,2 +1,0 @@
-e903109c120e832d43fcf552426cfb66aa95ef6eb56e24776ecca86ea5d3793d  create-freeglut-app-v1.0.0.tar.gz
-6219d36d9af537d5ae302013bacbc9e04a1ea6f72a6f6f53978fe39125111121  freeglut-scaffolder-source.tar.gz

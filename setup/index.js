@@ -4,124 +4,136 @@ const { Command } = require('commander');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
-const prompts = require('prompts');
 const fetch = require('node-fetch');
 const tar = require('tar');
 const { execSync } = require('child_process');
+const os = require('os');
 
 const program = new Command();
 
-async function init() {
-    program
-        .version('1.0.0')
-        .argument('[project-name]', 'name of the project')
-        .action(async (projectName) => {
-            let targetDir = projectName;
+const FREEGLUT_VERSION = '3.8.0';
+const DOWNLOAD_URL = `https://github.com/freeglut/freeglut/releases/download/v${FREEGLUT_VERSION}/freeglut-${FREEGLUT_VERSION}.tar.gz`;
 
-            if (!targetDir) {
-                const response = await prompts({
-                    type: 'text',
-                    name: 'name',
-                    message: 'How do you want to name your app?',
-                    initial: 'Project'
-                });
-                targetDir = response.name;
-            }
+program
+    .name('glut')
+    .description('CLI tool for FreeGLUT project management')
+    .version('1.0.0');
 
-            if (!targetDir) {
-                console.log(chalk.red('Please specify a project name.'));
-                process.exit(1);
-            }
+program
+    .command('setup')
+    .description('Setup FreeGLUT environment')
+    .action(async () => {
+        const platform = process.platform;
+        console.log(chalk.cyan(`Setting up FreeGLUT ${FREEGLUT_VERSION} for ${platform}...`));
 
-            const root = path.resolve(targetDir);
-            const appName = path.basename(root);
+        if (platform === 'win32') {
+            await setupWindows();
+        } else if (platform === 'darwin') {
+            await setupMacOS();
+        } else if (platform === 'linux') {
+            await setupLinux();
+        } else {
+            console.log(chalk.red(`Unsupported platform: ${platform}`));
+        }
+    });
 
-            if (fs.existsSync(root)) {
-                console.log(chalk.red(`Directory ${targetDir} already exists.`));
-                process.exit(1);
-            }
+program
+    .command('create [project-name]')
+    .description('Create a new FreeGLUT project from template')
+    .action(async (projectName = 'Project') => {
+        const root = path.resolve(projectName);
+        const appName = path.basename(root);
 
-            console.log(chalk.cyan(`Creating a new FreeGLUT app in ${chalk.bold(root)}...`));
+        if (fs.existsSync(root)) {
+            console.log(chalk.red(`Directory ${projectName} already exists.`));
+            process.exit(1);
+        }
 
-            await fs.ensureDir(root);
+        console.log(chalk.cyan(`Creating a new FreeGLUT app in ${chalk.bold(root)}...`));
 
-            const templateDir = path.join(__dirname, 'template');
+        await fs.ensureDir(root);
 
-            // Copy template files
-            await fs.copy(templateDir, root);
+        const templateDir = path.join(__dirname, 'template');
+        if (!fs.existsSync(templateDir)) {
+            console.log(chalk.red('Template directory not found. Please ensure the CLI is installed correctly.'));
+            process.exit(1);
+        }
 
-            // Setup FreeGLUT if needed
-            await setupFreeGLUT(root);
+        // Copy template files
+        await fs.copy(templateDir, root);
 
-            console.log(chalk.green('\nSuccess!'));
-            console.log(`Created ${appName} at ${root}`);
-            console.log('\nInside that directory, you can run several commands:');
-            console.log(chalk.cyan('\n  On macOS/Linux:'));
-            console.log(chalk.yellow('    ./build.sh'));
-            console.log(chalk.cyan('\n  On Windows:'));
-            console.log(chalk.yellow('    .\\build.bat'));
-            console.log('\nWe suggest that you begin by typing:');
-            console.log(chalk.cyan(`  cd ${targetDir}`));
-            console.log(chalk.cyan('  code .'));
-        });
+        // Customize project files if needed (e.g., replacing "ProjectName" in README)
+        // For now, it's a simple copy.
 
-    program.parse(process.argv);
-}
+        console.log(chalk.green('\nSuccess!'));
+        console.log(`Created ${appName} at ${root}`);
+        console.log('\nTo get started:');
+        console.log(chalk.cyan('    code .'));
+        console.log(chalk.gray('    (Then press F5 to build and run)'));
+    });
 
-async function setupFreeGLUT(projectRoot) {
-    const os = process.platform;
-    console.log(chalk.yellow('Setting up dependencies...'));
-
-    if (os === 'darwin') {
-        // On macOS, we can check if freeglut is installed via brew, 
-        // but the template uses system frameworks which is fine for basic GLUT.
-        // However, the user mentioned 3.8.0 specifically.
-        console.log(chalk.gray('macOS detected. Using system frameworks or Homebrew if available.'));
-    } else if (os === 'win32') {
-        // On Windows, downloading the library might be useful.
-        console.log(chalk.gray('Windows detected. Checking for FreeGLUT...'));
-        // For Windows, we might want to download precompiled binaries if available, 
-        // but the link provided is for source. Building from source on Windows is hard via CLI.
-        // Usually, users expect the .lib and .dll.
-    } else {
-        console.log(chalk.gray('Linux detected. Ensure freeglut3-dev is installed.'));
-    }
-
-    // If the user explicitly wants to download the source 3.8.0:
-    const downloadUrl = 'https://github.com/freeglut/freeglut/releases/download/v3.8.0/freeglut-3.8.0.tar.gz';
-    const depDir = path.join(projectRoot, 'deps');
+async function setupWindows() {
+    const targetDir = 'C:\\freeglut';
+    console.log(chalk.yellow(`Target directory: ${targetDir}`));
 
     try {
-        const response = await fetch(downloadUrl);
-        if (!response.ok) throw new Error(`Failed to fetch ${downloadUrl}: ${response.statusText}`);
+        if (!fs.existsSync(targetDir)) {
+            await fs.ensureDir(targetDir);
+        }
 
-        await fs.ensureDir(depDir);
-        const tarPath = path.join(depDir, 'freeglut-3.8.0.tar.gz');
+        // Note: For Windows, downloading the source might not be enough for a "ready to use" setup 
+        // if they don't have a compiler. But the user asked for download and unzip.
+        // We'll download the source for now as requested.
+        const tarPath = path.join(os.tmpdir(), `freeglut-${FREEGLUT_VERSION}.tar.gz`);
+
+        console.log(chalk.yellow('Downloading FreeGLUT source...'));
+        const response = await fetch(DOWNLOAD_URL);
+        if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`);
+
         const fileStream = fs.createWriteStream(tarPath);
-
-        console.log(chalk.yellow('Downloading FreeGLUT 3.8.0 source...'));
         await new Promise((resolve, reject) => {
             response.body.pipe(fileStream);
             response.body.on('error', reject);
             fileStream.on('finish', resolve);
         });
 
-        console.log(chalk.yellow('Extracting FreeGLUT 3.8.0...'));
+        console.log(chalk.yellow('Extracting to C:\\freeglut...'));
         await tar.x({
             file: tarPath,
-            C: depDir
+            C: targetDir,
+            strip: 1
         });
 
-        // Remove the tarball after extraction
         await fs.remove(tarPath);
-
+        console.log(chalk.green('FreeGLUT setup completed on Windows.'));
+        console.log(chalk.blue('Note: You may need to compile it or provide precompiled binaries in this folder.'));
     } catch (err) {
-        console.log(chalk.red(`Could not download FreeGLUT source: ${err.message}`));
-        console.log(chalk.yellow('Please install FreeGLUT manually on your system.'));
+        console.error(chalk.red(`Setup failed: ${err.message}`));
+        if (err.code === 'EPERM') {
+            console.log(chalk.yellow('Try running the terminal as Administrator.'));
+        }
     }
 }
 
-init().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+async function setupMacOS() {
+    console.log(chalk.yellow('Checking for FreeGLUT via Homebrew...'));
+    try {
+        execSync('brew install freeglut', { stdio: 'inherit' });
+        console.log(chalk.green('FreeGLUT installed via Homebrew.'));
+    } catch (err) {
+        console.log(chalk.yellow('Homebrew not found or failed. Ensure FreeGLUT is installed manually.'));
+        console.log(chalk.gray('Recommended: brew install freeglut'));
+    }
+}
+
+async function setupLinux() {
+    console.log(chalk.yellow('Attempting to install FreeGLUT via apt...'));
+    try {
+        execSync('sudo apt-get update && sudo apt-get install -y freeglut3-dev', { stdio: 'inherit' });
+        console.log(chalk.green('FreeGLUT installed via apt.'));
+    } catch (err) {
+        console.log(chalk.yellow('Failed to install via apt. Ensure freeglut3-dev is installed.'));
+    }
+}
+
+program.parse(process.argv);

@@ -1,60 +1,42 @@
-# OpenGL GLUT Cross-Platform Template
+# FreeGLUT Project Scaffolder
 
-A clean, production-ready template for OpenGL and GLUT applications that works seamlessly on **Windows**, **Linux**, and **macOS**.
+A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with VS Code support on Windows, macOS, and Linux.
 
-## Command List
+## Quick Start (All Platforms)
 
-### **1. Setup New Project**
-Create a new FreeGLUT project from the root folder:
-- **Mac / Linux**: `./setup.sh MyNewApp`
-- **Windows**: `setup.bat MyNewApp`
+Run these three commands to get started:
 
-### **2. Build Project**
-Inside your new project directory:
-- **Mac / Linux**: `./build.sh`
-- **Windows**: `build.bat`
+1. **Setup the CLI:**
+   ```bash
+   # On macOS/Linux
+   chmod +x setup.sh && ./setup.sh
+   # On Windows (Admin recommended)
+   .\setup.bat
+   ```
 
-### **3. Run Application**
-After a successful build:
-- **Mac / Linux**: `./build/app`
-alias create-gl-app='/path/to/setup.sh'
+2. **Setup FreeGLUT Environment:**
+   ```bash
+   glut setup
+   ```
 
-### macOS
-- **Xcode Command Line Tools**: `xcode-select --install`
-- (Optional) **XQuartz**: If you specifically want to use FreeGLUT via X11. However, this template defaults to the native Apple GLUT framework.
+3. **Create Your First Project:**
+   ```bash
+   glut create MyProject
+   ```
 
-### Linux (Ubuntu/Debian)
-- `sudo apt-get update`
-- `sudo apt-get install build-essential freeglut3-dev libglew-dev`
+## Features
 
-### Windows
-- **MinGW-w64**: Installed via MSYS2 or standalone.
-- **FreeGLUT**: Place `freeglut.dll` in the project root or system path.
+- **Cross-Platform**: Works on macOS (Silicon/Intel), Windows, and Linux.
+- **Auto-Environment Setup**: Automatically downloads FreeGLUT or guides you through system-level installation.
+- **VS Code Integration**: Pre-configured `.vscode` settings for building and debugging (F5 support).
+- **Multi-File Support**: Automatically compiles all `.cpp` files in your project directory.
 
-## How to Build & Run
+## Project Structure
 
-### Using VS Code
-1. Open this folder in VS Code.
-2. Press `F5` to build and start debugging.
+When you create a project, it will have the following structure:
+- `main.cpp`: Your entry point.
+- `.vscode/`: Tasks and launch configurations for VS Code.
 
-### Using CLI (macOS/Linux)
-```bash
-chmod +x build.sh
-./build.sh
-./build/app
-```
+## How to Build
 
-### Using CLI (Windows)
-```cmd
-build.bat
-build\app.exe
-```
-
-## Structure
-- `main.cpp`: Your source code with cross-platform header logic.
-- `.vscode/`: Configuration for building and debugging.
-- `.gitignore`: Excludes build artifacts and local settings.
-- `build/`: Destination for compiled binaries.
-
-## Credits
-Based on the FreeGLUT project: [https://github.com/freeglut/freeglut](https://github.com/freeglut/freeglut)
+Simply open the project in VS Code and press **F5**. This will automatically compile all `.cpp` files and start debugging.

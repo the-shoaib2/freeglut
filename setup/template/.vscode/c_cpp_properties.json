@@ -31,7 +31,8 @@
     {
       "name": "Win32",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "C:/freeglut/include"
       ],
       "defines": [
         "_DEBUG",

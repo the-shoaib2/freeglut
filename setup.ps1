@@ -8,25 +8,24 @@ Write-Host "║        FreeGLUT CLI Installer (Windows)    ║" -ForegroundColor
 Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-# 1. Check PowerShell Execution Policy
-$policy = Get-ExecutionPolicy
-if ($policy -eq 'Restricted' -or $policy -eq 'AllSigned') {
-    Write-Host "⚠️  PowerShell Execution Policy is too restrictive ($policy)." -ForegroundColor Yellow
-    Write-Host "   This prevents Node.js scripts from running correctly." -ForegroundColor White
-    $fixPolicy = Read-Host "   Would you like to set it to 'RemoteSigned' for the current user? (y/n)"
-    if ($fixPolicy -eq 'y' -or $fixPolicy -eq 'Y') {
-        Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+# 1. Auto-fix PowerShell Execution Policy (non-interactive for irm | iex compatibility)
+$policy = Get-ExecutionPolicy -Scope CurrentUser
+if ($policy -eq 'Restricted' -or $policy -eq 'Undefined' -or $policy -eq 'AllSigned') {
+    Write-Host "🔧 Fixing PowerShell Execution Policy..." -ForegroundColor Cyan
+    try {
+        Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
         Write-Host "✅ Execution Policy updated to RemoteSigned." -ForegroundColor Green
     }
-    else {
-        Write-Host "❌ Warning: Script execution is still restricted. Installation WILL likely fail." -ForegroundColor Red
+    catch {
+        Write-Host "⚠️  Could not update Execution Policy automatically." -ForegroundColor Yellow
+        Write-Host "   You may need to run: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser" -ForegroundColor White
     }
 }
 
 # 2. Check for Node.js/npm (Prefer .cmd to avoid .ps1 policy issues)
-$npmCmd = "npm"
-if (Get-Command "npm.cmd" -ErrorAction SilentlyContinue) {
-    $npmCmd = "npm.cmd"
+$npmCmd = "npm.cmd"
+if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
+    $npmCmd = "npm"
 }
 
 if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
@@ -50,6 +49,9 @@ if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
                 # Re-check for npm.cmd after path refresh
                 if (Get-Command "npm.cmd" -ErrorAction SilentlyContinue) {
                     $npmCmd = "npm.cmd"
+                }
+                elseif (Get-Command "npm" -ErrorAction SilentlyContinue) {
+                    $npmCmd = "npm"
                 }
                 
                 if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
@@ -84,7 +86,7 @@ if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
     }
 }
 else {
-    $nodeVersion = node -v
+    $nodeVersion = & node -v
     Write-Host "✅ Node.js Status: Found ($nodeVersion)" -ForegroundColor Green
 }
 

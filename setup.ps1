@@ -8,7 +8,7 @@ Write-Host "║        FreeGLUT CLI Installer (Windows)    ║" -ForegroundColor
 Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-# 1. Auto-fix PowerShell Execution Policy (non-interactive for irm | iex compatibility)
+# 1. PowerShell Execution Policy (non-interactive for irm | iex compatibility)
 $policy = Get-ExecutionPolicy -Scope CurrentUser
 if ($policy -eq 'Restricted' -or $policy -eq 'Undefined' -or $policy -eq 'AllSigned') {
     Write-Host "🔧 Fixing PowerShell Execution Policy..." -ForegroundColor Cyan

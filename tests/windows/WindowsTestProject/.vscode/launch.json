@@ -1,8 +1,8 @@
 {
-  "version": "0.2.0",
+  "version": "1.0.0",
   "configurations": [
     {
-      "name": "Debug OpenGL App",
+      "name": "Debug OpenGL",
       "type": "cppdbg",
       "request": "launch",
       "osx": {
@@ -29,9 +29,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",
       "request": "launch",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/build/Debug/outDebug"
+        "args": [],
+        "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/build/app"
     }
   ]
 }

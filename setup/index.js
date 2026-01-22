@@ -336,6 +336,21 @@ async function performBuild(isRelease) {
             }
 
             execSync(linkCmd, { stdio: 'inherit' });
+
+            // Copy FreeGLUT DLL for Windows
+            if (platform === 'win32') {
+                const dllSource = 'C:\\freeglut\\bin\\freeglut.dll';
+                const dllDest = path.join(buildDir, 'freeglut.dll');
+                if (fs.existsSync(dllSource)) {
+                    try {
+                        await fs.copy(dllSource, dllDest);
+                        console.log(chalk.gray('  FreeGLUT DLL copied to build directory.'));
+                    } catch (err) {
+                        console.log(chalk.yellow('  Warning: Could not copy FreeGLUT DLL.'));
+                    }
+                }
+            }
+
             console.log(chalk.green(`\n✔ ${mode} build successful!`));
         } else {
             console.log(chalk.green('\n✔ Project is up to date.'));

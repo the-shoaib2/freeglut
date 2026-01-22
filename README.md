@@ -2,6 +2,10 @@
 
 A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with VS Code support on Windows, macOS, and Linux.
 
+## Prerequisites
+
+- **Node.js**: Version 16.0 or higher is required. Download it from [nodejs.org](https://nodejs.org/).
+
 ## Quick Start (One-Command Installation)
 
 Install the FreeGLUT CLI tool directly without cloning the repository:

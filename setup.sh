@@ -6,6 +6,47 @@ echo "  FreeGLUT CLI Installer (macOS/Linux)"
 echo "========================================"
 echo ""
 
+# Check for Node.js/npm
+if ! command -v npm &> /dev/null; then
+    echo ""
+    echo "⚠️  Node.js/npm is not installed!"
+    echo "This tool requires Node.js to function."
+    echo ""
+    read -p "Would you like to automatically install Node.js? (y/n) " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            if command -v brew &> /dev/null; then
+                echo "[0/3] Installing Node.js via Homebrew..."
+                brew install node
+            else
+                echo "❌ Homebrew not found. Please install Node.js manually: https://nodejs.org/"
+                exit 1
+            fi
+        elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            if command -v apt-get &> /dev/null; then
+                echo "[0/3] Installing Node.js via apt..."
+                sudo apt-get update && sudo apt-get install -y nodejs npm
+            else
+                echo "❌ Package manager not supported. Please install Node.js manually: https://nodejs.org/"
+                exit 1
+            fi
+        else
+            echo "❌ OS not supported for auto-install. Please install Node.js manually."
+            exit 1
+        fi
+        
+        if ! command -v npm &> /dev/null; then
+            echo "⚠️  Node.js installed but 'npm' is still not found in this session."
+            echo "Please restart your terminal and run this installer again."
+            exit 1
+        fi
+    else
+        echo "Installation cancelled. Please install Node.js to continue."
+        exit 1
+    fi
+fi
+
 # Create temporary directory
 TEMP_DIR=$(mktemp -d)
 cd "$TEMP_DIR" || exit 1

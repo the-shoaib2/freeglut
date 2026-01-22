@@ -7,6 +7,54 @@ Write-Host "  FreeGLUT CLI Installer (Windows)" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Check for Node.js/npm
+if (-not (Get-Command "npm" -ErrorAction SilentlyContinue)) {
+    Write-Host ""
+    Write-Host "⚠️  Node.js/npm is not installed!" -ForegroundColor Yellow
+    Write-Host "This tool requires Node.js to function." -ForegroundColor White
+    Write-Host ""
+    
+    $install = Read-Host "Would you like to automatically install Node.js? (y/N)"
+    if ($install -eq 'y' -or $install -eq 'Y') {
+        Write-Host "[0/3] Attempting to install Node.js via winget..." -ForegroundColor Green
+        if (Get-Command "winget" -ErrorAction SilentlyContinue) {
+            winget install -e --id OpenJS.NodeJS.LTS --source winget --accept-package-agreements --accept-source-agreements
+            
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "✅ Node.js installed successfully!" -ForegroundColor Green
+                Write-Host "Refreshing environment variables..." -ForegroundColor Gray
+                
+                # Refresh PATH for current session
+                $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+                
+                if (-not (Get-Command "npm" -ErrorAction SilentlyContinue)) {
+                    Write-Host "⚠️  Node.js installed but 'npm' is still not found in this session." -ForegroundColor Yellow
+                    Write-Host "Please restart your terminal and run this installer again." -ForegroundColor White
+                    Read-Host "Press Enter to exit..."
+                    exit 1
+                }
+            }
+            else {
+                Write-Host "❌ auto-installation failed." -ForegroundColor Red
+                Write-Host "Please install Node.js manually: https://nodejs.org/" -ForegroundColor White
+                Read-Host "Press Enter to exit..."
+                exit 1
+            }
+        }
+        else {
+            Write-Host "❌ 'winget' not found. Cannot auto-install." -ForegroundColor Red
+            Write-Host "Please install Node.js manually: https://nodejs.org/" -ForegroundColor White
+            Read-Host "Press Enter to exit..."
+            exit 1
+        }
+    }
+    else {
+        Write-Host "Installation cancelled. Please install Node.js to continue." -ForegroundColor Red
+        Read-Host "Press Enter to exit..."
+        exit 1
+    }
+}
+
 # Check for admin privileges
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
@@ -64,12 +112,14 @@ try {
     Write-Host "  glut create MyProject" -ForegroundColor Yellow
     Write-Host ""
 
-} catch {
+}
+catch {
     Write-Host ""
     Write-Host "❌ Installation failed: $_" -ForegroundColor Red
     Write-Host ""
     exit 1
-} finally {
+}
+finally {
     # Cleanup
     Write-Host "Cleaning up temporary files..." -ForegroundColor Gray
     Set-Location $env:TEMP

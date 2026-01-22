@@ -14,7 +14,7 @@
         "MIMode": "gdb"
       },
       "windows": {
-        "program": "${workspaceFolder}/build/app.exe",
+        "program": "${workspaceFolder}/build/Debug/outDebug.exe",
         "MIMode": "gdb",
         "miDebuggerPath": "gdb.exe"
       },

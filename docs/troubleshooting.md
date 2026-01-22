@@ -56,13 +56,54 @@ sudo npm install -g glut
 
 ## Build Issues
 
-### `g++: command not found`
+### `g++: command not found` or `g++ is not recognized`
 
-**Windows:**
+**Cause:** C++ compiler not installed or not in system PATH.
+
+**Windows Solution:**
+
+**Option 1: Install MinGW-w64 (Recommended)**
+1. Download from [winlibs.com](https://winlibs.com/)
+2. Choose "UCRT runtime" version (latest)
+3. Extract to `C:\mingw64\`
+4. Add to PATH:
+   ```powershell
+   # Run as Administrator
+   $oldPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+   $newPath = $oldPath + ';C:\mingw64\bin'
+   [Environment]::SetEnvironmentVariable('Path', $newPath, 'Machine')
+   ```
+5. Restart terminal and verify:
+   ```powershell
+   g++ --version
+   ```
+
+**Option 2: Install via winget**
 ```powershell
-# Install MinGW
-# Download from mingw.org
-# Add C:\MinGW\bin to PATH
+# Run as Administrator
+winget install -e --id LLVM.LLVM
+# or
+winget install -e --id GnuWin32.Make
+```
+
+**Option 3: Install MSYS2**
+1. Download from [msys2.org](https://www.msys2.org/)
+2. Install to `C:\msys64\`
+3. Open MSYS2 terminal and run:
+   ```bash
+   pacman -S mingw-w64-x86_64-gcc
+   ```
+4. Add to PATH: `C:\msys64\mingw64\bin`
+
+**Verify Installation:**
+```powershell
+# Check if g++ is accessible
+where.exe g++
+# Should show: C:\mingw64\bin\g++.exe (or similar)
+
+# Check version
+g++ --version
+# Should show: g++ (GCC) 13.x.x or similar
 ```
 
 **macOS:**

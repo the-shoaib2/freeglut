@@ -277,6 +277,30 @@ async function performBuild(isRelease) {
     const buildDir = path.resolve('build');
     const objDir = path.join(buildDir, 'obj');
 
+    // Check if compiler is available
+    const compiler = platform === 'darwin' ? 'clang++' : 'g++';
+    try {
+        execSync(`${compiler} --version`, { stdio: 'ignore' });
+    } catch (err) {
+        console.log(chalk.red(`\n✖ Error: ${compiler} compiler not found!`));
+        console.log(chalk.yellow('\nThe C++ compiler is required to build your project.'));
+        console.log(chalk.cyan('\nInstallation instructions:'));
+
+        if (platform === 'win32') {
+            console.log(chalk.white('  1. Download MinGW-w64 from https://winlibs.com/'));
+            console.log(chalk.white('  2. Extract to C:\\mingw64\\'));
+            console.log(chalk.white('  3. Add C:\\mingw64\\bin to your system PATH'));
+            console.log(chalk.white('  4. Restart your terminal'));
+            console.log(chalk.gray('\nDetailed guide: https://github.com/the-shoaib2/freeglut/blob/main/docs/compiler-setup.md'));
+        } else if (platform === 'darwin') {
+            console.log(chalk.white('  Run: xcode-select --install'));
+        } else {
+            console.log(chalk.white('  Run: sudo apt-get install build-essential'));
+        }
+
+        throw new Error('Compiler not found');
+    }
+
     console.log(chalk.cyan(`🔨 Building project for ${platform} [${mode}]...`));
 
     try {
@@ -347,15 +371,18 @@ async function performBuild(isRelease) {
 
             // Copy FreeGLUT DLL for Windows
             if (platform === 'win32') {
-                const dllSource = 'C:\\freeglut\\bin\\freeglut.dll';
+                const dllSource = 'C:/freeglut/bin/freeglut.dll';
                 const dllDest = path.join(buildDir, 'freeglut.dll');
+
                 if (fs.existsSync(dllSource)) {
                     try {
                         await fs.copy(dllSource, dllDest);
                         console.log(chalk.gray('  FreeGLUT DLL copied to build directory.'));
                     } catch (err) {
-                        console.log(chalk.yellow('  Warning: Could not copy FreeGLUT DLL.'));
+                        console.log(chalk.yellow(`  Warning: Could not copy FreeGLUT DLL: ${err.message}`));
                     }
+                } else {
+                    console.log(chalk.yellow('  Warning: FreeGLUT DLL not found at C:/freeglut/bin/freeglut.dll'));
                 }
             }
 

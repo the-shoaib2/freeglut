@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("WindowsTestProject");
+    glutCreateWindow("TestProject2");
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);

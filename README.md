@@ -125,7 +125,7 @@ Template projects include:
 
 - **Node.js** 16.0+ ([nodejs.org](https://nodejs.org/))
 - **C++ Compiler:**
-  - Windows: MinGW GCC
+  - Windows: MinGW GCC ([Setup Guide](docs/compiler-setup.md))
   - macOS: Xcode Command Line Tools
   - Linux: GCC/G++
 

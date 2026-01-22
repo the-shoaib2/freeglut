@@ -28,7 +28,13 @@
       },
       "problemMatcher": [
         "$gcc"
-      ]
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      }
     }
   ]
 }

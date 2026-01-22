@@ -22,16 +22,18 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "externalConsole": true,
+      "externalConsole": false,
       "preLaunchTask": "build"
     },
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "lldb",
+      "type": "cppvsdbg",
       "request": "launch",
-        "args": [],
-        "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/build/app"
+      "args": [],
+      "stopAtEntry": false,
+      "console": "externalTerminal",
+      "cwd": "c:/Users/thesh/OneDrive/Desktop/freeglut/tests/windows/TestProject2",
+      "program": "c:/Users/thesh/OneDrive/Desktop/freeglut/tests/windows/TestProject2/build/Debug/outDebug"
     }
   ]
 }

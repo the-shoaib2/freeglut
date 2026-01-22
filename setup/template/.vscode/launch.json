@@ -22,15 +22,15 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "externalConsole": true,
+      "externalConsole": false,
       "preLaunchTask": "build"
     },
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",
       "request": "launch",
-        "args": [],
-        "cwd": "${workspaceFolder}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/build/app"
     }
   ]

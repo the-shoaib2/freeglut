@@ -59,19 +59,18 @@ if ($exeExists -and $dllExists) {
     exit 1
 }
 
-# Test 4: Manual Build Script
+# Test 4: Clean Command
 Write-Host ""
-Write-Host "[4/5] Testing manual build script..." -ForegroundColor Yellow
-Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
+Write-Host "[4/5] Testing clean command..." -ForegroundColor Yellow
 try {
-    .\build.bat
-    if (Test-Path "build/app.exe") {
-        Write-Host "✅ Manual build successful" -ForegroundColor Green
+    node ../../../setup/index.js clean
+    if (!(Test-Path "build")) {
+        Write-Host "✅ Clean command successful" -ForegroundColor Green
     } else {
-        throw "app.exe not created"
+        throw "Build directory still exists"
     }
 } catch {
-    Write-Host "❌ Manual build failed: $_" -ForegroundColor Red
+    Write-Host "❌ Clean command failed: $_" -ForegroundColor Red
     Set-Location ..
     exit 1
 }

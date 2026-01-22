@@ -20,7 +20,7 @@
             ]
           }
         },
-        "command": "if (!(Test-Path build)) { New-Item -ItemType Directory -Path build | Out-Null }; g++ *.cpp -o build/app.exe -I\"C:/freeglut/include\" -L\"C:/freeglut/lib\" -lfreeglut -lopengl32 -lglu32 -g; if ($LASTEXITCODE -eq 0) { if (Test-Path \"C:/freeglut/bin/freeglut.dll\") { Copy-Item \"C:/freeglut/bin/freeglut.dll\" build/freeglut.dll -Force; Write-Host 'Build successful! FreeGLUT DLL copied.' -ForegroundColor Green } else { Write-Host 'Build successful!' -ForegroundColor Green } } else { Write-Host 'Build failed!' -ForegroundColor Red; exit 1 }"
+        "command": "if (!(Test-Path build)) { New-Item -ItemType Directory -Path build | Out-Null }; g++ *.cpp -o build/app.exe -I\"C:/freeglut/include\" -L\"C:/freeglut/lib\" -lfreeglut -lopengl32 -lglu32 -g -mwindows; if ($LASTEXITCODE -eq 0) { if (Test-Path \"C:/freeglut/bin/freeglut.dll\") { Copy-Item \"C:/freeglut/bin/freeglut.dll\" build/freeglut.dll -Force; Write-Host 'Build successful! FreeGLUT DLL copied.' -ForegroundColor Green } else { Write-Host 'Build successful!' -ForegroundColor Green } } else { Write-Host 'Build failed!' -ForegroundColor Red; exit 1 }"
       },
       "group": {
         "kind": "build",

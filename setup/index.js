@@ -90,12 +90,6 @@ program
         // Copy template files
         await fs.copy(templateDir, root);
 
-        // Rename _gitignore to .gitignore (npm pack excludes .gitignore by default)
-        const gitignorePath = path.join(root, '_gitignore');
-        if (fs.existsSync(gitignorePath)) {
-            await fs.move(gitignorePath, path.join(root, '.gitignore'));
-        }
-
         // Update glut.json name
         const configPath = path.join(root, 'glut.json');
         if (fs.existsSync(configPath)) {
@@ -360,7 +354,7 @@ async function performBuild(isRelease) {
             const objsStr = objFiles.map(f => `"${f}"`).join(' ');
 
             if (platform === 'win32') {
-                linkCmd = `g++ ${objsStr} -o "${exe}" -L"C:\\freeglut\\lib" -lfreeglut -lopengl32 -lglu32 ${flags}`;
+                linkCmd = `g++ ${objsStr} -o "${exe}" -L"C:\\freeglut\\lib" -lfreeglut -lopengl32 -lglu32 ${flags} -mwindows`;
             } else if (platform === 'darwin') {
                 linkCmd = `clang++ ${objsStr} -o "${exe}" -framework GLUT -framework OpenGL ${flags}`;
             } else {

@@ -1,5 +1,4 @@
 # FreeGLUT CLI Installer for Windows (PowerShell)
-# Run as Administrator
 
 Clear-Host
 Write-Host ""
@@ -8,45 +7,43 @@ Write-Host "║        FreeGLUT CLI Installer (Windows)    ║" -ForegroundColor
 Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-# 1. PowerShell Execution Policy (non-interactive for irm | iex compatibility)
+# Auto-fix PowerShell Execution Policy
 $policy = Get-ExecutionPolicy -Scope CurrentUser
 if ($policy -eq 'Restricted' -or $policy -eq 'Undefined' -or $policy -eq 'AllSigned') {
     Write-Host "🔧 Fixing PowerShell Execution Policy..." -ForegroundColor Cyan
     try {
         Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
-        Write-Host "✅ Execution Policy updated to RemoteSigned." -ForegroundColor Green
+        Write-Host "✅ Execution Policy updated." -ForegroundColor Green
     }
     catch {
-        Write-Host "⚠️  Could not update Execution Policy automatically." -ForegroundColor Yellow
-        Write-Host "   You may need to run: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser" -ForegroundColor White
+        Write-Host "⚠️  Could not update Execution Policy." -ForegroundColor Yellow
+        Write-Host "   Run: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser" -ForegroundColor White
     }
 }
 
-# 2. Check for Node.js/npm (Prefer .cmd to avoid .ps1 policy issues)
+# Check for Node.js/npm (prefer npm.cmd)
 $npmCmd = "npm.cmd"
 if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
     $npmCmd = "npm"
 }
 
 if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
-    Write-Host "⚠️  Node.js/npm is not installed!" -ForegroundColor Yellow
+    Write-Host "⚠️  Node.js is not installed!" -ForegroundColor Yellow
     Write-Host "   This tool requires Node.js to function." -ForegroundColor White
     Write-Host ""
     
-    $install = Read-Host "   Would you like to automatically install Node.js? (y/n)"
+    $install = Read-Host "   Install Node.js automatically? (y/n)"
     if ($install -eq 'y' -or $install -eq 'Y') {
-        Write-Host "🚀 [0/3] Attempting to install Node.js via winget..." -ForegroundColor Cyan
+        Write-Host "🚀 Installing Node.js via winget..." -ForegroundColor Cyan
         if (Get-Command "winget" -ErrorAction SilentlyContinue) {
             winget install -e --id OpenJS.NodeJS.LTS --source winget --accept-package-agreements --accept-source-agreements
             
             if ($LASTEXITCODE -eq 0) {
                 Write-Host "✅ Node.js installed successfully!" -ForegroundColor Green
-                Write-Host "🔄 Refreshing environment variables..." -ForegroundColor Gray
                 
-                # Refresh PATH for current session
+                # Refresh PATH
                 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
                 
-                # Re-check for npm.cmd after path refresh
                 if (Get-Command "npm.cmd" -ErrorAction SilentlyContinue) {
                     $npmCmd = "npm.cmd"
                 }
@@ -55,54 +52,54 @@ if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
                 }
                 
                 if (-not (Get-Command $npmCmd -ErrorAction SilentlyContinue)) {
-                    Write-Host "❌ Node.js installed but '$npmCmd' is still not found in this session." -ForegroundColor Red
+                    Write-Host "❌ Node.js installed but npm not found." -ForegroundColor Red
                     Write-Host "   Please restart your terminal and run this installer again." -ForegroundColor White
                     Write-Host ""
-                    Read-Host "Press Enter to exit..."
+                    Read-Host "Press Enter to exit"
                     exit 1
                 }
             }
             else {
-                Write-Host "❌ Auto-installation failed." -ForegroundColor Red
-                Write-Host "   Please install Node.js manually: https://nodejs.org/" -ForegroundColor White
+                Write-Host "❌ Installation failed." -ForegroundColor Red
+                Write-Host "   Install manually: https://nodejs.org/" -ForegroundColor White
                 Write-Host ""
-                Read-Host "Press Enter to exit..."
+                Read-Host "Press Enter to exit"
                 exit 1
             }
         }
         else {
-            Write-Host "❌ 'winget' not found. Cannot auto-install." -ForegroundColor Red
-            Write-Host "   Please install Node.js manually: https://nodejs.org/" -ForegroundColor White
+            Write-Host "❌ winget not found." -ForegroundColor Red
+            Write-Host "   Install manually: https://nodejs.org/" -ForegroundColor White
             Write-Host ""
-            Read-Host "Press Enter to exit..."
+            Read-Host "Press Enter to exit"
             exit 1
         }
     }
     else {
-        Write-Host "🚫 Installation cancelled. Please install Node.js to continue." -ForegroundColor Red
+        Write-Host "🚫 Installation cancelled." -ForegroundColor Red
         Write-Host ""
-        Read-Host "Press Enter to exit..."
+        Read-Host "Press Enter to exit"
         exit 1
     }
 }
 else {
     $nodeVersion = & node -v
-    Write-Host "✅ Node.js Status: Found ($nodeVersion)" -ForegroundColor Green
+    Write-Host "✅ Node.js: $nodeVersion" -ForegroundColor Green
 }
 
 Write-Host ""
 
-# 3. Check for admin privileges
+# Check admin privileges
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
-    Write-Host "⚠️  Warning: Running without administrator privileges." -ForegroundColor Yellow
-    Write-Host "   Global installation may fail. Please run PowerShell as Administrator." -ForegroundColor Yellow
+    Write-Host "⚠️  Running without administrator privileges." -ForegroundColor Yellow
+    Write-Host "   Global installation may fail." -ForegroundColor Yellow
     Write-Host ""
     $continue = Read-Host "   Continue anyway? (y/n)"
     if ($continue -ne 'y' -and $continue -ne 'Y') {
         Write-Host "🚫 Installation cancelled." -ForegroundColor Red
         Write-Host ""
-        Read-Host "Press Enter to exit..."
+        Read-Host "Press Enter to exit"
         exit 1
     }
 }
@@ -122,12 +119,11 @@ try {
     Expand-Archive -Path $zipFile -DestinationPath $tempDir -Force
     Set-Location (Join-Path $tempDir "freeglut-main\setup")
 
-    Write-Host "⚙️  [3/3] Installing 'glut' command globally..." -ForegroundColor Cyan
+    Write-Host "⚙️  [3/3] Installing 'glut' command..." -ForegroundColor Cyan
     & $npmCmd pack | Out-Null
     $tarball = Get-ChildItem "glut-*.tgz" | Select-Object -First 1
     if (-not $tarball) { throw "Failed to create npm package" }
     
-    # Use npm.cmd for the actual install too
     & $npmCmd install -g $tarball.FullName | Out-Null
 
     if ($LASTEXITCODE -ne 0) {
@@ -135,15 +131,13 @@ try {
     }
 
     Write-Host ""
-    Write-Host "🔨 Initializing FreeGLUT Environment..." -ForegroundColor Cyan
+    Write-Host "🔨 Initializing FreeGLUT..." -ForegroundColor Cyan
     & glut setup
 
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Green
     Write-Host "  ✨ Installation Complete!" -ForegroundColor Green
     Write-Host "========================================" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "The 'glut' command is now available globally." -ForegroundColor White
     Write-Host ""
     Write-Host "Create your first project:" -ForegroundColor White
     Write-Host "  glut create MyProject" -ForegroundColor Yellow
@@ -154,11 +148,10 @@ catch {
     Write-Host ""
     Write-Host "❌ Error: $_" -ForegroundColor Red
     Write-Host ""
-    Read-Host "Press Enter to exit..."
+    Read-Host "Press Enter to exit"
     exit 1
 }
 finally {
-    # Cleanup
     Set-Location $env:TEMP
     if (Test-Path $tempDir) {
         Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue

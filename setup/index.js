@@ -114,16 +114,6 @@ program
 
         console.log(chalk.green('✔ Successfully scaffolded project structure.'));
 
-        // Git initialization
-        // Git initialization
-        try {
-            execSync('git init', { cwd: root, stdio: 'inherit' });
-            execSync('git add .', { cwd: root, stdio: 'inherit' });
-            execSync('git commit -m "feat: scaffold new project via glut"', { cwd: root, stdio: 'inherit' });
-            console.log(chalk.green('✔ Initialized local Git repository with initial commit.'));
-        } catch (e) {
-            console.log(chalk.yellow('⚠ Could not verify Git repository status (git may not be installed or configured).'));
-        }
 
         console.log(chalk.green('✔ VS Code configurations initialized.'));
 

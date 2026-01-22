@@ -1,68 +1,170 @@
 # FreeGLUT Project Scaffolder
 
-A comprehensive tool to setup FreeGLUT and scaffold new OpenGL/C++ projects with VS Code support on Windows, macOS, and Linux.
+A production-grade CLI tool to scaffold cross-platform OpenGL/C++ projects with FreeGLUT. Features hot reloading, VS Code integration, and automated environment setup for Windows, macOS, and Linux.
 
-## Prerequisites
+[![npm version](https://img.shields.io/npm/v/glut.svg)](https://www.npmjs.com/package/glut)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- **Node.js**: Version 16.0 or higher is required. Download it from [nodejs.org](https://nodejs.org/).
+## ✨ Features
 
-## Quick Start (One-Command Installation)
+- 🚀 **One-Command Installation** - Get started in seconds
+- 🔥 **Hot Reloading** - Auto-rebuild and restart on file changes
+- 🎯 **VS Code Integration** - F5 debugging out of the box
+- 🏗️ **Component Generation** - Instant C++ class scaffolding
+- ⚡ **Incremental Builds** - Only recompile changed files
+- 🌍 **Cross-Platform** - Windows, macOS, and Linux support
+- 📦 **Auto-Environment Setup** - FreeGLUT installation handled for you
+- 🎨 **Modern C++17** - Professional-grade project structure
 
-Install the FreeGLUT CLI tool directly without cloning the repository:
+## 🚀 Quick Start
 
-### One-Command Installation (Recommended)
+### Installation
 
-Run this in your terminal to download and install automatically:
-
-#### Windows (PowerShell as Admin)
+**Windows (PowerShell as Admin):**
 ```powershell
 irm https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.ps1 | iex
 ```
 
-#### macOS / Linux
+**macOS / Linux:**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh | bash
 ```
 
+### Create Your First Project
 
+```bash
+glut create MyGame
+cd MyGame
+code .
+# Press F5 to build and run!
+```
+
+## 📚 Documentation
+
+### Command Reference
+
+| Command | Description |
+|---------|-------------|
+| [`glut create`](docs/commands/create.md) | Create new project |
+| [`glut build`](docs/commands/build.md) | Compile project |
+| [`glut run`](docs/commands/run.md) | Build and execute |
+| [`glut watch`](docs/commands/watch.md) | Hot reload mode |
+| [`glut add`](docs/commands/add.md) | Generate component |
+| [`glut clean`](docs/commands/clean.md) | Remove build artifacts |
+| [`glut status`](docs/commands/status.md) | Show project info |
+| [`glut setup`](docs/commands/setup.md) | Install FreeGLUT |
+
+### Guides
+
+- 📖 [Installation Guide](docs/installation.md)
+- 🔧 [Troubleshooting](docs/troubleshooting.md)
+- 📁 [Folder Structure](docs/folder-structure.md)
+- 🤝 [Contributing](docs/contributing.md)
+
+## 💡 Usage Examples
+
+### Basic Workflow
+
+```bash
+# Create project
+glut create "My Awesome Game"
+cd "My Awesome Game"
+
+# Add components
+glut add Player
+glut add Enemy
+glut add GameEngine
+
+# Build and run
+glut run
+
+# Or use hot reload
+glut watch
+```
+
+### Production Build
+
+```bash
+glut build --release
+# Optimized with -O3, stripped symbols
+```
+
+### VS Code Integration
+
+```bash
+code .
+# Press F5 to build and debug
+# Set breakpoints and step through code
+```
+
+## 🏗️ Project Structure
+
+Generated projects include:
+
+```
+MyGame/
+├── .vscode/              # VS Code configuration
+├── main.cpp              # Starter OpenGL app
+├── glut.json             # Project metadata
+├── build.bat             # Windows build script
+├── README.md             # Project documentation
+└── STRUCTURE.md          # Folder structure guide
+```
+
+See [Folder Structure](docs/folder-structure.md) for details.
+
+## 🎮 Default Controls
+
+Template projects include:
+
+- **+** - Increase shape detail
+- **-** - Decrease shape detail
+- **q** or **ESC** - Quit
+
+## 🔧 Requirements
+
+- **Node.js** 16.0+ ([nodejs.org](https://nodejs.org/))
+- **C++ Compiler:**
+  - Windows: MinGW GCC
+  - macOS: Xcode Command Line Tools
+  - Linux: GCC/G++
+
+FreeGLUT is installed automatically via `glut setup`.
+
+## 🧪 Testing
+
+Cross-platform test suite included:
+
+```bash
+# Windows
+cd tests/windows
+.\test.ps1
+
+# macOS/Linux
+cd tests/macos  # or tests/linux
+./test.sh
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! See [Contributing Guide](docs/contributing.md).
+
+## 📝 License
+
+MIT © [the-shoaib2](https://github.com/the-shoaib2)
+
+## 🙏 Acknowledgments
+
+- [FreeGLUT](http://freeglut.sourceforge.net/) - OpenGL Utility Toolkit
+- [Commander.js](https://github.com/tj/commander.js/) - CLI framework
+- [Chalk](https://github.com/chalk/chalk) - Terminal styling
+
+## 📞 Support
+
+- 📫 [GitHub Issues](https://github.com/the-shoaib2/freeglut/issues)
+- 📖 [Documentation](docs/)
+- 💬 [Discussions](https://github.com/the-shoaib2/freeglut/discussions)
 
 ---
 
-**After installation, create your first project:**
-
-```bash
-glut create MyProject
-```
-
-## Features
-
-- **Framework Commands**:
-  - `glut watch`: **Hot Reloading** for C++! Rebuilds and restarts your app on every save.
-  - `glut add <name>`: Instantly generate C++ header and source pairs.
-  - `glut clean`: Quickly wipe build artifacts.
-  - `glut status`: Get a snapshot of your project and source files.
-- **Production Performance**:
-  - `glut build --release`: Peak optimization with `-O3` and symbol stripping.
-  - **Modern C++**: Projects use **C++17** by default for professional performance and features.
-- **Auto-Environment Setup**: Automatically downloads FreeGLUT or guides you through system-level installation.
-- **Smart Scaffolding**: 
-  - Automatically initializes a **Git repository**.
-  - Injects your project name into the code (e.g., as the window title).
-- **CLI Lifecycle Support**:
-  - `glut build`: Compile your project from the terminal.
-  - `glut run`: Build and execute your project instantly.
-- **VS Code Integration**: Pre-configured `.vscode` settings for building and debugging (F5 support).
-
-## Manual Build & Run
-
-While VS Code is recommended, you can manage your project entirely from the CLI:
-```bash
-glut watch          # Hot-reload mode (rebuild on save)
-glut build --release # Build for production (-O3)
-glut run            # Debug build and execute
-glut add Player     # Generate Player.h and Player.cpp
-glut clean          # Clear build folder
-glut status         # Show project info
-glut help           # Show command help
-glut version        # Show CLI version
-```
+**Made with ❤️ for OpenGL developers**

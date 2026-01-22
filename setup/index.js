@@ -108,8 +108,16 @@ program
         const mainPath = path.join(root, 'main.cpp');
         if (fs.existsSync(mainPath)) {
             let content = await fs.readFile(mainPath, 'utf8');
-            content = content.replace(/glutCreateWindow\(".*"\)/, `glutCreateWindow("${appName}")`);
+            content = content.replace(/glutCreateWindow\(\".*\"\)/, `glutCreateWindow(\"${appName}\")`);
             await fs.writeFile(mainPath, content);
+        }
+
+        // Inject Project Name into README.md
+        const readmePath = path.join(root, 'README.md');
+        if (fs.existsSync(readmePath)) {
+            let content = await fs.readFile(readmePath, 'utf8');
+            content = content.replace(/\{\{PROJECT_NAME\}\}/g, appName);
+            await fs.writeFile(readmePath, content);
         }
 
         console.log(chalk.green('✔ Successfully scaffolded project structure.'));

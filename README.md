@@ -32,8 +32,19 @@ curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh 
 ### 2. Scaffold & Run
 ```bash
 glut create MyProject
+```
+
+**Run your project:**
+```bash
 cd MyProject
 glut run
+```
+
+**Or open in VS Code:**
+```bash
+cd MyProject
+code .
+# Press F5 to start debugging
 ```
 
 ---

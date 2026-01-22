@@ -22,6 +22,7 @@ static int stacks = 16;
 
 static void renderText(float x, float y, const char *text, int charLimit = -1) {
   glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
@@ -33,20 +34,22 @@ static void renderText(float x, float y, const char *text, int charLimit = -1) {
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadIdentity();
-  glColor3f(0.0f, 0.5f, 1.0f);
+
+  glColor3f(1.0f, 1.0f, 1.0f); // Professional white
   glRasterPos2f(x, y);
 
   int count = 0;
   for (const char *c = text; *c != '\0'; c++) {
     if (charLimit != -1 && count >= charLimit)
       break;
-    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c); // Use 18 for bold look
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c); // Smaller font
     count++;
   }
   glPopMatrix();
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
   glMatrixMode(GL_MODELVIEW);
+  glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
 }
 
@@ -111,19 +114,24 @@ static void display(void) {
   glutWireTorus(0.2, 0.8, slices, stacks);
   glPopMatrix();
 
+  // Responsive Positioning for Developer Info (Pinned to bottom-right)
+  const char *devName = "Developer: MD Shoaib Khan";
+  const char *gitLink = "github.com/the-shoaib2";
+
+  int w = glutGet(GLUT_WINDOW_WIDTH);
+  int padding = 15;
+  int panelWidth = 200; // Smaller width for smaller font
+  int xPos = w - panelWidth - padding;
+  int yPos = padding;
+
   // Typing Animation logic
   long currentTime = glutGet(GLUT_ELAPSED_TIME);
-  int charsToShow =
-      (int)(currentTime / 50); // 1 character every 50ms (20 chars/sec)
-
-  const char *devName = "Developer: MD Shoaib Khan";
-  const char *gitLink = "GitHub: github.com/the-shoaib2";
+  int charsToShow = (int)(currentTime / 40);
   int nameLen = strlen(devName);
 
-  renderText(10, 25, devName, charsToShow);
-
+  renderText(xPos, yPos + 18, devName, charsToShow);
   if (charsToShow > nameLen) {
-    renderText(10, 5, gitLink, charsToShow - nameLen);
+    renderText(xPos, yPos, gitLink, charsToShow - nameLen);
   }
 
   glutSwapBuffers();
@@ -202,7 +210,7 @@ int main(int argc, char *argv[]) {
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
   printf("--------------------------------------------------\n");
-  printf("🚀 FreeGLUT App Powered by MD Shoaib Khan\n");
+  printf("🚀 FreeGLUT App Powered by the-shoaib2\n");
   printf("🔗 GitHub: https://github.com/the-shoaib2\n");
   printf("--------------------------------------------------\n");
 

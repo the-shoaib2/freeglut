@@ -202,7 +202,7 @@ int main(int argc, char *argv[]) {
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
   printf("--------------------------------------------------\n");
-  printf("🚀 FreeGLUT App Powered by the-shoaib2\n");
+  printf("🚀 FreeGLUT App Powered by MD Shoaib Khan\n");
   printf("🔗 GitHub: https://github.com/the-shoaib2\n");
   printf("--------------------------------------------------\n");
 

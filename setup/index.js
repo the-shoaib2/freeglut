@@ -90,6 +90,12 @@ program
         // Copy template files
         await fs.copy(templateDir, root);
 
+        // Rename _gitignore to .gitignore (npm pack excludes .gitignore by default)
+        const gitignorePath = path.join(root, '_gitignore');
+        if (fs.existsSync(gitignorePath)) {
+            await fs.move(gitignorePath, path.join(root, '.gitignore'));
+        }
+
         // Update glut.json name
         const configPath = path.join(root, 'glut.json');
         if (fs.existsSync(configPath)) {

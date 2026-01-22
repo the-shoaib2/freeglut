@@ -19,7 +19,7 @@
             ]
           }
         },
-        "command": "cmd /C \"if not exist build\\Debug mkdir build\\Debug && g++ *.cpp -o build\\Debug\\outDebug.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g\""
+        "command": "cmd /C \"if not exist build mkdir build && g++ *.cpp -o build\\app.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g\""
       },
       "group": {
         "kind": "build",

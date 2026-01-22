@@ -14,7 +14,7 @@
         "MIMode": "gdb"
       },
       "windows": {
-        "program": "${workspaceFolder}/build/Debug/outDebug.exe",
+        "program": "${workspaceFolder}/build/app.exe",
         "MIMode": "gdb",
         "miDebuggerPath": "gdb.exe"
       },
@@ -29,9 +29,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",
       "request": "launch",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/build/Debug/outDebug"
+        "args": [],
+        "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/build/app"
     }
   ]
 }

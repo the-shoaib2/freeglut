@@ -363,13 +363,14 @@ async function setupWindows() {
             await fs.ensureDir(targetDir);
         }
 
-        const tarPath = path.join(os.tmpdir(), `freeglut-${FREEGLUT_VERSION}.tar.gz`);
+        const zipPath = path.join(os.tmpdir(), 'freeglut-MinGW.zip');
+        const downloadUrl = 'https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MinGW.zip';
 
-        console.log(chalk.yellow('Downloading FreeGLUT source...'));
-        const response = await fetch(DOWNLOAD_URL);
+        console.log(chalk.yellow('Downloading precompiled FreeGLUT binaries...'));
+        const response = await fetch(downloadUrl);
         if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`);
 
-        const fileStream = fs.createWriteStream(tarPath);
+        const fileStream = fs.createWriteStream(zipPath);
         await new Promise((resolve, reject) => {
             response.body.pipe(fileStream);
             response.body.on('error', reject);
@@ -377,15 +378,21 @@ async function setupWindows() {
         });
 
         console.log(chalk.yellow('Extracting to C:\\freeglut...'));
-        await tar.x({
-            file: tarPath,
-            C: targetDir,
-            strip: 1
-        });
 
-        await fs.remove(tarPath);
+        // Use PowerShell to unzip (avoiding new dependencies)
+        execSync(`powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${targetDir}' -Force"`);
+
+        // Move files from 'freeglut' subfolder if it exists (the zip usually has a root folder)
+        const contentDir = path.join(targetDir, 'freeglut');
+        if (fs.existsSync(contentDir)) {
+            await fs.copy(contentDir, targetDir);
+            await fs.remove(contentDir);
+        }
+
+        await fs.remove(zipPath);
         console.log(chalk.green('FreeGLUT setup completed on Windows.'));
-        console.log(chalk.blue('Note: You may need to compile it or provide precompiled binaries in this folder.'));
+        console.log(chalk.gray('Libraries installed to C:\\freeglut\\lib'));
+        console.log(chalk.gray('Headers installed to C:\\freeglut\\include'));
     } catch (err) {
         console.error(chalk.red(`Setup failed: ${err.message}`));
         if (err.code === 'EPERM') {

@@ -19,7 +19,7 @@
             ]
           }
         },
-        "command": "cmd /C \"if not exist build mkdir build && g++ *.cpp -o build\\app.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g\""
+        "command": "cmd /C \"if not exist build mkdir build && g++ *.cpp -o build\\app.exe -I\"C:\\freeglut\\include\" -L\"C:\\freeglut\\lib\" -lfreeglut -lopengl32 -lglu32 -g && if exist C:\\freeglut\\bin\\freeglut.dll copy C:\\freeglut\\bin\\freeglut.dll build\\freeglut.dll\""
       },
       "group": {
         "kind": "build",

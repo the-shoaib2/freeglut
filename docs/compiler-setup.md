@@ -12,7 +12,17 @@ If you see an error like `g++ is not recognized`, follow the installation steps 
 
 ### Installation Options
 
-#### Option 1: MinGW-w64 (Recommended)
+#### Option 0: Automatic Setup (Recommended)
+
+If you don't have a compiler, the `glut` CLI can install it for you automatically. Just run:
+
+```powershell
+glut build
+```
+
+If `g++` is missing, the CLI will offer to install MinGW-w64 via `winget`. This is the easiest and fastest way to get started.
+
+#### Option 1: MinGW-w64 (Manual)
 
 **Download:**
 1. Visit [winlibs.com](https://winlibs.com/)

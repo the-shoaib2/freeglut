@@ -265,6 +265,36 @@ function checkInProject() {
     }
 }
 
+async function tryAutoInstallCompiler() {
+    const platform = process.platform;
+    const compiler = platform === 'darwin' ? 'clang++' : 'g++';
+
+    if (platform === 'win32') {
+        console.log(chalk.yellow(`\n⚠️  ${compiler} compiler not found!`));
+        console.log(chalk.cyan('Attempting to install MinGW-w64 automatically via winget...'));
+
+        try {
+            // Check if winget is available
+            execSync('winget --version', { stdio: 'ignore' });
+
+            console.log(chalk.gray('  Downloading and installing MinGW-w64 (GNU.MinGW-w64)...'));
+            console.log(chalk.gray('  This may take a few minutes. Please wait...'));
+
+            // Note: -e is --exact
+            execSync('winget install -e --id GNU.MinGW-w64 --silent --accept-package-agreements --accept-source-agreements', { stdio: 'inherit' });
+
+            console.log(chalk.green('\n✔ MinGW-w64 installation completed.'));
+            console.log(chalk.blue('ℹ  IMPORTANT: You MUST restart your terminal or VS Code for the changes to take effect.'));
+            console.log(chalk.cyan('   After restarting, run "glut build" again.'));
+            process.exit(0);
+        } catch (wingetErr) {
+            console.log(chalk.red('✖ Automatic installation failed (winget not found or error occurred).'));
+            return false;
+        }
+    }
+    return false;
+}
+
 async function performBuild(isRelease) {
     const platform = process.platform;
     const mode = isRelease ? 'Release' : 'Debug';
@@ -276,6 +306,9 @@ async function performBuild(isRelease) {
     try {
         execSync(`${compiler} --version`, { stdio: 'ignore' });
     } catch (err) {
+        const installed = await tryAutoInstallCompiler();
+        if (installed) return;
+
         console.log(chalk.red(`\n✖ Error: ${compiler} compiler not found!`));
         console.log(chalk.yellow('\nThe C++ compiler is required to build your project.'));
         console.log(chalk.cyan('\nInstallation instructions:'));

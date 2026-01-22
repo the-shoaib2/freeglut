@@ -25,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/the-shoaib2/freeglut/main/setup.sh 
 **Platform-Specific:**
 
 **Windows:**
-- MinGW GCC compiler
+- MinGW GCC compiler (CLI can install this automatically via `winget`)
 - Administrator privileges (for FreeGLUT installation)
 
 **macOS:**
@@ -85,9 +85,17 @@ glut CLI v1.2.0
 ### Windows
 
 **Install MinGW:**
-1. Download from [mingw.org](http://www.mingw.org/)
-2. Install with C++ compiler
-3. Add to PATH: `C:\MinGW\bin`
+
+The CLI can install MinGW automatically via `winget` if it is not found. Simply run:
+```powershell
+glut build
+```
+And follow the prompts.
+
+For manual installation:
+1. Download from [winlibs.com](https://winlibs.com/)
+2. Extract to `C:\mingw64\`
+3. Add to PATH: `C:\mingw64\bin`
 
 **Verify:**
 ```powershell

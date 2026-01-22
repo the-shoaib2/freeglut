@@ -7,6 +7,11 @@
 #include <cstdlib>
 #include <string>
 
+/* Fix for Windows: GL_MULTISAMPLE might be missing in default headers */
+#ifndef GL_MULTISAMPLE
+#define GL_MULTISAMPLE  0x809D
+#endif
+
 /* Animation state */
 static double angle = 0.0;
 

@@ -7,9 +7,12 @@
 #include <cstdlib>
 #include <string>
 
-/* Fix for Windows: GL_MULTISAMPLE might be missing in default headers */
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
+#endif
+
+#ifndef GLUT_MULTISAMPLE
+#define GLUT_MULTISAMPLE 128
 #endif
 
 /* Animation state */

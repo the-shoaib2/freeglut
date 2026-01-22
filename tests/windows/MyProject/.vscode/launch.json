@@ -27,13 +27,11 @@
     },
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppvsdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [],
-      "stopAtEntry": false,
-      "console": "externalTerminal",
-      "cwd": "c:/Users/thesh/OneDrive/Desktop/freeglut/tests/windows/TestProject2",
-      "program": "c:/Users/thesh/OneDrive/Desktop/freeglut/tests/windows/TestProject2/build/Debug/outDebug"
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/build/app"
     }
   ]
 }

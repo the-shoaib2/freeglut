@@ -1,4 +1,4 @@
-# TestProject2
+# MyProject
 
 A cross-platform OpenGL application built with FreeGLUT.
 
@@ -44,7 +44,7 @@ This creates `.h` and `.cpp` files automatically.
 ## Project Structure
 
 ```
-TestProject2/
+MyProject/
 ├── main.cpp                # Main application
 ├── glut.json               # Project configuration
 ├── .vscode/                # VS Code settings

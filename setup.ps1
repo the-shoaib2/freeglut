@@ -1,10 +1,14 @@
 # FreeGLUT CLI Installer for Windows (PowerShell)
+# Developer: the.shoaib2
+# GitHub: https://github.com/the-shoaib2
 
 Clear-Host
 Write-Host ""
-Write-Host "╔════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║        FreeGLUT CLI Installer (Windows)    ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "════════════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "        FreeGLUT CLI Installer (Windows)    " -ForegroundColor Cyan
+Write-Host "        Developer: the-shoaib2              " -ForegroundColor Cyan
+Write-Host "        github.com/the-shoaib2              " -ForegroundColor Cyan
+Write-Host "════════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host ""
 
 # Auto-fix PowerShell Execution Policy

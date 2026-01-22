@@ -1,8 +1,13 @@
 #!/bin/bash
+# FreeGLUT CLI Installer for macOS/Linux
+# Developer: the.shoaib2
+# GitHub: https://github.com/the-shoaib2
 
 echo ""
 echo "========================================"
 echo "  FreeGLUT CLI Installer (macOS/Linux)"
+echo "  Developer: the-shoaib2"
+echo "  github.com/the-shoaib2"
 echo "========================================"
 echo ""
 
